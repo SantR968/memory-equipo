@@ -16,7 +16,7 @@ from freegames import path
 
 car = path('car.gif')
 tiles = list(range(32)) * 2
-state = {'mark': None}
+state = {'mark': None, 'taps': 0}
 hide = [True] * 64
 
 
@@ -37,15 +37,29 @@ def index(x, y):
     """Convert (x, y) coordinates to tiles index."""
     return int((x + 200) // 50 + ((y + 200) // 50) * 8)
 
-
 def xy(count):
-    """Convert tiles count to (x, y) coordinates."""
+    """Convierte el indice de una tarjeta en coordenadas."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
 
 def tap(x, y):
-    """Update mark and hidden tiles based on tap."""
+    """Cuenta los taps dentro del tablero y verifica las parejas."""
+    if not any(hide):
+        return
+
+    # Evita indices incorrectos al hacer clic fuera del tablero.
+    if not (-200 <= x < 200 and -200 <= y < 200):
+        return
+
+    state['taps'] += 1
+    print("Taps:", state['taps'])
+
     spot = index(x, y)
+       
+    # Las tarjetas descubiertas ya no participan.
+    if not hide[spot]:
+        return
+    
     mark = state['mark']
 
     if mark is None or mark == spot or tiles[mark] != tiles[spot]:
@@ -54,7 +68,6 @@ def tap(x, y):
         hide[spot] = False
         hide[mark] = False
         state['mark'] = None
-
 
 def draw():
     """Draw image and tiles."""
@@ -76,13 +89,33 @@ def draw():
         goto(x + 2, y)
         color('black')
         write(tiles[mark], font=('Arial', 30, 'normal'))
+  
+    # Muestra el total de taps encima del tablero.
+    up()
+    goto(0, 205)
+    color('black')
+    write(
+        f"Taps: {state['taps']}",
+        align='center',
+        font=('Arial', 14, 'normal'),
+    )
 
+    # Muestra la victoria cuando no quedan tarjetas ocultas.
+    if not any(hide):
+        up()
+        goto(0, -225)
+        color('black')
+        write(
+            "¡Ganaste! Todas las parejas encontradas.",
+            align='center',
+            font=('Arial', 12, 'normal'),
+        )
     update()
     ontimer(draw, 100)
 
 
 shuffle(tiles)
-setup(420, 420, 370, 0)
+setup(420, 480, 370, 0)
 addshape(car)
 hideturtle()
 tracer(False)
