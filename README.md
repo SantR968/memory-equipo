@@ -1,3 +1,8 @@
+ main
+# memory-equipo
+1.- Cambie el codigo para remplazar los numeros que aparecian en el juego y los cambie por unos simbolos, esto para ayudar al usuario tener mejor memoria.
+2.- Centre las cartas.
+
 # Memory
 
 Juego de memoria desarrollado en Python con Turtle y Free Python Games, basado en el código original de Grant Jenks.
@@ -16,12 +21,12 @@ Encontrar las parejas de tarjetas iguales hasta descubrir todo el tablero. Al en
 
 Desde la carpeta del repositorio, crear y activar un ambiente virtual en Windows:
 
-```bat
+bat
 py -m venv .venv
 .venv\Scripts\activate
 python -m pip install freegames
 python memory.py
-```
+
 
 La imagen de fondo se obtiene de los recursos incluidos en Free Python Games.
 
@@ -62,3 +67,4 @@ Se utilizó un repositorio principal y un fork, sin acceso de colaborador. Cada 
 
 Grant Jenks, Free Python Games:
 https://grantjenks.com/docs/freegames/memory.html
+main
